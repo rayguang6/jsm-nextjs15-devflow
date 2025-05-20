@@ -106,7 +106,7 @@ const QuestionForm = ({ question, isEdit = false }: Params) => {
             description: "Your question has been updated successfully"
           });
 
-          if (result.data) router.push(ROUTES.QUESTION(result.data._id));
+          if (result.data && typeof result.data._id === 'string') {router.push(ROUTES.QUESTION(result.data._id));}
         } else {
           toast.error(result.error?.message || "Something went wrong", {
             description: `Error ${result.status}`
