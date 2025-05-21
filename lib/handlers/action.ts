@@ -14,6 +14,11 @@ type ActionOptions<T> = {
   authorize?: boolean;
 };
 
+type ActionResult<T> = Error | {
+  params: T | undefined;
+  session: Session | null;
+};
+
 // 1. Checking whether the schema and params are provided and validated.
 // 2. Checking whether the user is authorized.
 // 3. Connecting to the database.
@@ -23,7 +28,7 @@ async function action<T>({
   params,
   schema,
   authorize = false,
-}: ActionOptions<T>) {
+}: ActionOptions<T>): Promise<ActionResult<T>> {
   if (schema && params) {
     try {
       schema.parse(params);
