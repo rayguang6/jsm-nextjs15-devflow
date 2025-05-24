@@ -1,27 +1,26 @@
 interface SignInWithOAuthParams {
-    provider: "github" | "google";
-    providerAccountId: string;
-    user: {
-      email: string;
-      name: string;
-      image: string;
-      username: string;
-    };
-  }
-
-  interface AuthCredentials {
+  provider: "github" | "google";
+  providerAccountId: string;
+  user: {
     name: string;
     username: string;
     email: string;
-    password: string;
-  }
+    image: string;
+  };
+}
 
-  interface CreateQuestionParams {
-    title: string;
-    content: string;
-    tags: string[];
-  }
+interface AuthCredentials {
+  name: string;
+  username: string;
+  email: string;
+  password: string;
+}
 
+interface CreateQuestionParams {
+  title: string;
+  content: string;
+  tags: string[];
+}
 
 interface EditQuestionParams extends CreateQuestionParams {
   questionId: string;
@@ -40,8 +39,8 @@ interface IncrementViewsParams {
 }
 
 interface CreateAnswerParams {
-  questionId: string;
   content: string;
+  questionId: string;
 }
 
 interface GetAnswersParams extends PaginatedSearchParams {
@@ -73,9 +72,8 @@ interface GetUserParams {
   userId: string;
 }
 
-
 interface GetUserQuestionsParams
-  extends Omit<PaginatedSearchParams, "query" | "filter" | "sort"> {
+  extends Omit<PaginatedSearchParams, "query | filter | sort"> {
   userId: string;
 }
 
@@ -95,3 +93,24 @@ interface DeleteAnswerParams {
   answerId: string;
 }
 
+interface CreateInteractionParams {
+  action:
+    | "view"
+    | "upvote"
+    | "downvote"
+    | "bookmark"
+    | "post"
+    | "edit"
+    | "delete"
+    | "search";
+  actionId: string;
+  authorId: string;
+  actionTarget: "question" | "answer";
+}
+
+interface UpdateReputationParams {
+  interaction: IInteractionDoc;
+  session: mongoose.ClientSession;
+  performerId: string;
+  authorId: string;
+}
